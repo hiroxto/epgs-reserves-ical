@@ -10,3 +10,7 @@ yarn run dev
 ```
 yarn run deploy
 ```
+
+## Licence
+
+[MIT Licence](https://raw.githubusercontent.com/hiroxto/epgs-reserves-ical/main/LICENSE)
