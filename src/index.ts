@@ -4,6 +4,7 @@ import ical, { ICalCalendarMethod } from "ical-generator";
 import { z } from "zod";
 
 type Bindings = {
+  ACCESS_KEY: string;
   EPGS_ICAL_BUCKET: R2Bucket;
 };
 
@@ -42,9 +43,19 @@ app.post(
     }
   }),
   async c => {
-    const body = c.req.valid("json");
+    if (c.req.header("X-Access-Key") !== c.env.ACCESS_KEY) {
+      return c.json(
+        {
+          error: {
+            message: "認証エラー!",
+          },
+        },
+        400,
+      );
+    }
 
-    const calendar = ical({ name: "my first iCal" });
+    const body = c.req.valid("json");
+    const calendar = ical({ name: "EPGStation録画予約" });
     for (const reserve of body.reserves) {
       calendar.createEvent({
         start: new Date(reserve.startAt),
