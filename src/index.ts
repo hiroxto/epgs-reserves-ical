@@ -21,6 +21,8 @@ const schema = z.object({
   ),
 });
 
+const iCalFileName = "epgs.ical";
+
 const app = new Hono<{ Bindings: Bindings }>();
 
 app.get("/", c => {
@@ -66,7 +68,7 @@ app.post(
     }
 
     const bucket = c.env.EPGS_ICAL_BUCKET;
-    await bucket.put("epgs.ical", calendar.toString());
+    await bucket.put(iCalFileName, calendar.toString());
 
     return c.text("更新しますた!");
   },
@@ -85,7 +87,7 @@ app.get("/epgs.ical", async c => {
   }
 
   const bucket = c.env.EPGS_ICAL_BUCKET;
-  const ical = await bucket.get("epgs.ical");
+  const ical = await bucket.get(iCalFileName);
   if (ical === null) {
     return c.json(
       {
