@@ -11,9 +11,10 @@ compatibility_date = "2024-11-13"
 # binding = "MY_KV_NAMESPACE"
 # id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
-# [[r2_buckets]]
-# binding = "MY_BUCKET"
-# bucket_name = "my-bucket"
+[[r2_buckets]]
+binding = "EPGS_ICAL_BUCKET"
+bucket_name = "epgs-ical-bucket"
+preview_bucket_name = "epgs-ical-bucket"
 
 # [[d1_databases]]
 # binding = "DB"
