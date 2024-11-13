@@ -1,6 +1,6 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
-import ical, { ICalCalendarMethod } from "ical-generator";
+import ical from "ical-generator";
 import { z } from "zod";
 
 type Bindings = {
@@ -71,5 +71,34 @@ app.post(
     return c.text("更新しますた!");
   },
 );
+
+app.get("/epgs.ical", async c => {
+  if (c.req.query("access-key") !== c.env.ACCESS_KEY) {
+    return c.json(
+      {
+        error: {
+          message: "認証エラー!",
+        },
+      },
+      400,
+    );
+  }
+
+  const bucket = c.env.EPGS_ICAL_BUCKET;
+  const ical = await bucket.get("epgs.ical");
+  if (ical === null) {
+    return c.json(
+      {
+        error: {
+          message: "R2にiCalが存在しない!",
+        },
+      },
+      500,
+    );
+  }
+
+  const icalBody = await ical.arrayBuffer();
+  return c.body(icalBody, 200);
+});
 
 export default app;
