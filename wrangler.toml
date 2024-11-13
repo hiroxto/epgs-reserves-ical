@@ -1,6 +1,9 @@
 name = "epgs-reserves-ical"
 main = "src/index.ts"
 compatibility_date = "2024-11-13"
+routes = [
+    { pattern = "update-epgs-ical.hiroxto.net", custom_domain = true }
+]
 
 # compatibility_flags = [ "nodejs_compat" ]
 
