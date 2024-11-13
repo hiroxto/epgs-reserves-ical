@@ -1,0 +1,23 @@
+{
+  "name": "epgs-reserves-ical",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy --minify",
+    "lint": "biome lint",
+    "lint:fix": "biome lint --apply",
+    "format": "biome format",
+    "format:fix": "biome format --write",
+    "check": "biome check",
+    "check:fix": "biome check --write"
+  },
+  "dependencies": {
+    "hono": "^4.6.10"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@cloudflare/workers-types": "^4.20241022.0",
+    "wrangler": "^3.83.0"
+  }
+}
