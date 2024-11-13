@@ -13,4 +13,4 @@ yarn run deploy
 
 ## Licence
 
-[MIT Licence](https://raw.githubusercontent.com/hiroxto/epgs-reserves-ical/main/LICENSE)
+[MIT Licence](https://github.com/hiroxto/epgs-reserves-ical/blob/main/LICENSE)
