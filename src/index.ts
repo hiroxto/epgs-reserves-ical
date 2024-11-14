@@ -12,6 +12,7 @@ type Bindings = {
 const schema = z.object({
   reserves: z.array(
     z.object({
+      id: z.number().positive(),
       startAt: z.number().positive(),
       endAt: z.number().positive(),
       name: z.string(),
@@ -61,9 +62,13 @@ app.post(
     }
 
     const body = c.req.valid("json");
-    const calendar = ical({ name: "EPGStation録画予約" });
+    const calendar = ical({
+      name: "EPGStation録画予約",
+      description: "EPGStation録画予約情報のカレンダー",
+    });
     for (const reserve of body.reserves) {
       calendar.createEvent({
+        id: reserve.id,
         start: new Date(reserve.startAt),
         end: new Date(reserve.endAt),
         summary: reserve.name,
