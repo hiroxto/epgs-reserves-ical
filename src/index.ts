@@ -23,6 +23,10 @@ const schema = z.object({
 
 const iCalFileName = "epgs.ical";
 
+const epgsIcalCacheKey = (): Request => {
+  return new Request(`https://example.com/${iCalFileName}`);
+};
+
 const app = new Hono<{ Bindings: Bindings }>();
 
 app.get("/", c => {
@@ -70,6 +74,13 @@ app.post(
     const bucket = c.env.EPGS_ICAL_BUCKET;
     await bucket.put(iCalFileName, calendar.toString());
 
+    // キャッシュを削除して更新しておく。
+    const cache = caches.default;
+    const cacheKey = epgsIcalCacheKey();
+    c.executionCtx.waitUntil(cache.delete(cacheKey));
+    const response = new Response(calendar.toString());
+    c.executionCtx.waitUntil(cache.put(cacheKey, response.clone()));
+
     return c.text("更新しますた!");
   },
 );
@@ -86,6 +97,16 @@ app.get("/epgs.ical", async c => {
     );
   }
 
+  // キャッシュがあったらキャッシュから返す
+  const cache = caches.default;
+  const cacheKey = epgsIcalCacheKey();
+  const cacheData = await cache.match(cacheKey);
+  if (cacheData !== undefined) {
+    c.header("Content-Type", "text/calendar");
+    return c.body(cacheData.body, 200);
+  }
+
+  // キャッシュがなかったらR2から取得した上でキャッシュに保存する
   const bucket = c.env.EPGS_ICAL_BUCKET;
   const ical = await bucket.get(iCalFileName);
   if (ical === null) {
@@ -99,7 +120,11 @@ app.get("/epgs.ical", async c => {
     );
   }
 
-  const icalBody = await ical.arrayBuffer();
+  const icalBody = await ical.text();
+  const response = new Response(icalBody);
+  c.executionCtx.waitUntil(cache.put(cacheKey, response.clone()));
+
+  c.header("Content-Type", "text/calendar");
   return c.body(icalBody, 200);
 });
 
