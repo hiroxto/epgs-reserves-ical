@@ -6,7 +6,7 @@
     "dev": "wrangler dev",
     "deploy": "wrangler deploy --minify",
     "lint": "biome lint",
-    "lint:fix": "biome lint --apply",
+    "lint:fix": "biome lint --write",
     "format": "biome format",
     "format:fix": "biome format --write",
     "check": "biome check",
