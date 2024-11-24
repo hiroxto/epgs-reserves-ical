@@ -86,7 +86,6 @@ app.post(
     const response = new Response(calendar.toString());
     c.executionCtx.waitUntil(cache.put(cacheKey, response.clone()));
 
-    console.info(`Update : iCal update at ${new Date().toISOString()}`);
     return c.text("更新しますた!");
   },
 );
@@ -108,7 +107,7 @@ app.get("/epgs.ical", async c => {
   const cacheKey = epgsIcalCacheKey();
   const cacheData = await cache.match(cacheKey);
   if (cacheData !== undefined) {
-    console.info(`Get : from cache ${new Date().toISOString()}`);
+    console.info("Get iCal from cache");
 
     c.header("Content-Type", "text/calendar");
     return c.body(cacheData.body, 200);
@@ -118,7 +117,7 @@ app.get("/epgs.ical", async c => {
   const bucket = c.env.EPGS_ICAL_BUCKET;
   const ical = await bucket.get(iCalFileName);
   if (ical === null) {
-    console.error(`Get : iCal missing in R2 ${new Date().toISOString()}`);
+    console.error("iCal missing in R2");
     return c.json(
       {
         error: {
@@ -133,7 +132,7 @@ app.get("/epgs.ical", async c => {
   const response = new Response(icalBody);
   c.executionCtx.waitUntil(cache.put(cacheKey, response.clone()));
 
-  console.info(`Get : from R2 ${new Date().toISOString()}`);
+  console.info("Get iCal from R2");
 
   c.header("Content-Type", "text/calendar");
   return c.body(icalBody, 200);
