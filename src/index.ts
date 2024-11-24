@@ -30,10 +30,6 @@ const epgsIcalCacheKey = (): Request => {
 
 const app = new Hono<{ Bindings: Bindings }>();
 
-app.get("/", c => {
-  return c.text("Hello Hono!");
-});
-
 app.post(
   "/update",
   zValidator("json", schema, (result, c) => {
