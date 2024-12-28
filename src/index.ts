@@ -26,6 +26,24 @@ const iCalFileName = "epgs.ical";
 
 const app = new Hono<{ Bindings: Bindings }>();
 
+app.use(async (c, next) => {
+  if (
+    (c.req.method === "POST" && c.req.header("X-Access-Key") !== c.env.ACCESS_KEY) ||
+    (c.req.method === "GET" && c.req.query("access-key") !== c.env.ACCESS_KEY)
+  ) {
+    return c.json(
+      {
+        error: {
+          message: "認証エラー!",
+        },
+      },
+      400,
+    );
+  }
+
+  await next();
+});
+
 app.post(
   "/update",
   zValidator("json", schema, (result, c) => {
@@ -42,17 +60,6 @@ app.post(
     }
   }),
   async c => {
-    if (c.req.header("X-Access-Key") !== c.env.ACCESS_KEY) {
-      return c.json(
-        {
-          error: {
-            message: "認証エラー!",
-          },
-        },
-        400,
-      );
-    }
-
     const body = c.req.valid("json");
     const calendar = ical({
       name: "EPGStation録画予約",
@@ -76,17 +83,6 @@ app.post(
 );
 
 app.get("/epgs.ical", async c => {
-  if (c.req.query("access-key") !== c.env.ACCESS_KEY) {
-    return c.json(
-      {
-        error: {
-          message: "認証エラー!",
-        },
-      },
-      400,
-    );
-  }
-
   const bucket = c.env.EPGS_ICAL_BUCKET;
   const ical = await bucket.get(iCalFileName);
   if (ical === null) {
