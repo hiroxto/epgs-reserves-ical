@@ -1,6 +1,6 @@
 name = "epgs-reserves-ical"
 main = "src/index.ts"
-compatibility_date = "2024-11-13"
+compatibility_date = "2025-11-17"
 routes = [
     { pattern = "epgs-ical.hiroxto.net", custom_domain = true }
 ]
