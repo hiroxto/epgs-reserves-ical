@@ -13,6 +13,7 @@ const schema = z.object({
   reserves: z.array(
     z.object({
       id: z.number().positive(),
+      isSkip: z.boolean(),
       startAt: z.number().positive(),
       endAt: z.number().positive(),
       name: z.string(),
@@ -66,6 +67,11 @@ app.post(
       description: "EPGStation録画予約情報のカレンダー",
     });
     for (const reserve of body.reserves) {
+      // Skipの予約は除外する
+      if (reserve.isSkip) {
+        continue;
+      }
+
       calendar.createEvent({
         id: reserve.id,
         start: new Date(reserve.startAt),
