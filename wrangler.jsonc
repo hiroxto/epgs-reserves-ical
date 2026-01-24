@@ -19,7 +19,7 @@
         {
             "binding": "EPGS_ICAL_BUCKET",
             "bucket_name": "epgs-ical-bucket",
-            "preview_bucket_name": "epgs-ical-bucket"
+            "preview_bucket_name": "epgs-ical-bucket-preview"
         }
     ],
     "observability": {
