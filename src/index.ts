@@ -35,7 +35,7 @@ app.use(async (c, next) => {
     return c.json(
       {
         error: {
-          message: "認証エラー!",
+          message: "認証エラー",
         },
       },
       400,
@@ -52,7 +52,7 @@ app.post(
       return c.json(
         {
           error: {
-            message: "バリデーションエラー!",
+            message: "バリデーションエラー",
             detail: result.error.flatten(),
           },
         },
@@ -65,6 +65,8 @@ app.post(
     const calendar = ical({
       name: "EPGStation録画予約",
       description: "EPGStation録画予約情報のカレンダー",
+      timezone: "Asia/Tokyo",
+      ttl: 60 * 60 * 4, // 4 hours
     });
     for (const reserve of body.reserves) {
       // Skipの予約は除外する
@@ -96,7 +98,7 @@ app.get("/epgs.ical", async c => {
     return c.json(
       {
         error: {
-          message: "R2にiCalが存在しない!",
+          message: "R2にiCalが存在しない",
         },
       },
       500,
