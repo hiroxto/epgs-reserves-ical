@@ -65,6 +65,7 @@ app.post(
     const calendar = ical({
       name: "EPGStation録画予約",
       description: "EPGStation録画予約情報のカレンダー",
+      timezone: "Asia/Tokyo",
     });
     for (const reserve of body.reserves) {
       // Skipの予約は除外する
