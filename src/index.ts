@@ -66,6 +66,7 @@ app.post(
       name: "EPGStation録画予約",
       description: "EPGStation録画予約情報のカレンダー",
       timezone: "Asia/Tokyo",
+      ttl: 60 * 60 * 4, // 4 hours
     });
     for (const reserve of body.reserves) {
       // Skipの予約は除外する
