@@ -1,37 +1,41 @@
 {
-  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-  "vcs": {
-    "enabled": true,
-    "clientKind": "git",
-    "useIgnoreFile": true
-  },
-  "files": {
-    "ignoreUnknown": false,
-    "ignore": []
-  },
-  "formatter": {
-    "enabled": true,
-    "indentStyle": "space"
-  },
-  "organizeImports": {
-    "enabled": true
-  },
-  "linter": {
-    "enabled": true,
-    "rules": {
-      "recommended": true,
-      "style": {
-        "useSelfClosingElements": "off"
-      }
-    }
-  },
-  "javascript": {
+    "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+    "vcs": {
+        "enabled": true,
+        "clientKind": "git",
+        "useIgnoreFile": true
+    },
+    "files": {
+        "ignoreUnknown": false,
+        "ignore": []
+    },
     "formatter": {
-      "quoteStyle": "double",
-      "indentWidth": 2,
-      "indentStyle": "space",
-      "arrowParentheses": "asNeeded",
-      "lineWidth": 120
+        "enabled": true,
+        "indentStyle": "space"
+    },
+    "linter": {
+        "enabled": true,
+        "rules": {
+            "recommended": true,
+            "style": {
+                "useSelfClosingElements": "off"
+            }
+        }
+    },
+    "javascript": {
+        "formatter": {
+            "quoteStyle": "double",
+            "indentWidth": 2,
+            "indentStyle": "space",
+            "arrowParentheses": "asNeeded",
+            "lineWidth": 120
+        }
+    },
+    "json": {
+        "formatter": {
+            "indentWidth": 4,
+            "indentStyle": "space",
+            "lineWidth": 120
+        }
     }
-  }
 }
