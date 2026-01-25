@@ -65,7 +65,6 @@ app.post(
     const calendar = ical({
       name: "EPGStation録画予約",
       description: "EPGStation録画予約情報のカレンダー",
-      timezone: "Asia/Tokyo",
       ttl: 60 * 60 * 4, // 4 hours
     });
     for (const reserve of body.reserves) {
@@ -80,7 +79,6 @@ app.post(
         end: new Date(reserve.endAt),
         summary: reserve.name,
         description: `${reserve.description}\n\n${reserve.extended}`,
-        timezone: "Asia/Tokyo",
       });
     }
 
