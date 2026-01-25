@@ -79,7 +79,6 @@ app.post(
         end: new Date(reserve.endAt),
         summary: reserve.name,
         description: `${reserve.description}\n\n${reserve.extended}`,
-        timezone: "Asia/Tokyo",
       });
     }
 
