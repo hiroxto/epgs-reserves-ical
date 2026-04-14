@@ -5,6 +5,7 @@ import { z } from "zod";
 
 type Bindings = {
   ACCESS_KEY: string;
+  UID_NAMESPACE: string;
   EPGS_ICAL_BUCKET: R2Bucket;
 };
 
@@ -62,6 +63,18 @@ app.post(
   }),
   async c => {
     const body = c.req.valid("json");
+    const uidNamespace = c.env.UID_NAMESPACE?.trim();
+    if (!uidNamespace) {
+      return c.json(
+        {
+          error: {
+            message: "UID_NAMESPACE が設定されていない",
+          },
+        },
+        500,
+      );
+    }
+
     const calendar = ical({
       name: "EPGStation録画予約",
       description: "EPGStation録画予約情報のカレンダー",
@@ -74,7 +87,7 @@ app.post(
       }
 
       calendar.createEvent({
-        id: reserve.id,
+        id: `${uidNamespace}-${reserve.id}`,
         start: new Date(reserve.startAt),
         end: new Date(reserve.endAt),
         summary: reserve.name,
