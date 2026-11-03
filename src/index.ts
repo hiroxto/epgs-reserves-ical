@@ -54,7 +54,7 @@ app.post(
         {
           error: {
             message: "バリデーションエラー",
-            detail: result.error.flatten(),
+            detail: z.flattenError(result.error),
           },
         },
         400,
