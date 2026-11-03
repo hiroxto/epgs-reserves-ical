@@ -7,19 +7,12 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version:
-          - 22
-
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
-        with:
-          node-version: ${{ matrix.node-version }}
+      - name: Setup mise
+        uses: jdx/mise-action@f5be966e4a917d54244728e6a5fdcd1d93a35e6c # v5.2.6
 
-      - run: yarn install
-      - run: yarn run check
-      - run: yarn run tsc
+      - run: npm ci
+      - run: npm run check
+      - run: npm run tsc
