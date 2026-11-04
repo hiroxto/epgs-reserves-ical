@@ -22,6 +22,14 @@
             "preview_bucket_name": "epgs-ical-bucket-preview"
         }
     ],
+    "previews": {
+        "r2_buckets": [
+            {
+                "binding": "EPGS_ICAL_BUCKET",
+                "bucket_name": "epgs-ical-bucket-preview"
+            }
+        ]
+    },
     "observability": {
         "enabled": true,
         "head_sampling_rate": 1
