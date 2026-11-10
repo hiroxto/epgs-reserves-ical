@@ -2,7 +2,7 @@
     "name": "epgs-reserves-ical",
     "version": "0.0.1",
     "private": true,
-    "packageManager": "npm@11.20.0",
+    "packageManager": "npm@11.21.2",
     "scripts": {
         "dev": "wrangler dev",
         "deploy": "wrangler deploy --minify",
