@@ -12,6 +12,10 @@ jobs:
 
       - name: Setup mise
         uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
+        with:
+          # デフォルトのキャッシュキーはmise.tomlなどmiseの設定ファイルのハッシュしか含まず、idiomatic_version_file_enable_toolsで読むバージョン指定ファイルの変更を反映しない。Node.jsやnpmのバージョンを上げたときに古いキャッシュを使わないよう、これらのファイルのハッシュを加える
+          # Renovateがmise.lockの更新に対応していないため、mise.lockは使わずにバージョン指定ファイルをキャッシュキーに含める
+          cache_key: "{{default}}-${{ hashFiles('.node-version', 'package.json') }}"
 
       - run: npm ci
       - run: npm run check
